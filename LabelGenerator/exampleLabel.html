@@ -1,0 +1,10 @@
+<img src="{{ barcode_svg(element.part.name, 'QRCODE') | data_uri }}" alt="QR Code">
+
+<div class="textdiv">
+<p>{{ element.part.name }}</p>
+<p style="font-size: 8px">{{element.part.category}} | MFG: {{element.part.manufacturer}}</p>
+ <hr style="width:100%;text-align:left;margin-left:50"> 
+<p style="font-size: 8px">{{ element.part.description }}</p>
+ <hr style="width:100%;text-align:left;margin-left:50"> 
+<p>{{ element.storageLocation.fullPath }}</p>
+</div>

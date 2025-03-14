@@ -1,0 +1,64 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Label</title>
+        <style>
+            .label {
+                width: 10.0cm;
+                height: 5.0cm;
+                padding: 1cm;
+                border: 1px solid #000;
+                font-family: Arial, sans-serif;
+                font-size: 12pt;
+            }
+            .label h1 {
+                font-size: 16pt;
+                margin-bottom: 5mm;
+                text-align: center;
+            }
+            .label .qr-code {
+                text-align: center;
+                margin-top: 10mm;
+            }
+            .label .info {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 5mm;
+            }
+            .label .info div {
+                width: 48%;
+            }
+            .label .info div label {
+                font-weight: bold;
+            }
+            .label .description {
+                margin-top: 10mm;
+                font-size: 10pt;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="label">
+            <h1>Example Corp - 12345</h1>
+            <div class="info">
+                <div><label>Category:</label> Electronics</div>
+                <div><label>Storage Location:</label> A1-03</div>
+            </div>
+            <div class="info">
+                <div><label>Manufacturer:</label> Example Corp</div>
+                <div><label>Description:</label> This is an example item description</div>
+            </div>
+            <div class="qr-code">
+                <img src="C:\Users\LittleBitchBoy\Documents\Projects\Partsbox Label Generator\Partsbox-Label-Generator\LabelGenerator\qr_code_test.png" alt="QR Code" width="50mm" />
+            </div>
+            <div class="description">
+                <p>Scan this code for more details</p>
+            </div>
+        </div>
+    </body>
+    </html>
+    
