@@ -16,8 +16,10 @@ The template for labels is hardcoded to what works for me. You are welcome to cl
 For all styles, the QR code contains the part number.
 
 This is a magazine label, 65x29. Two rows possible for the part number, description, and storage location. The footprint is limited to one line and will be truncated if longer.
+
 ![image](https://github.com/user-attachments/assets/d9606cb5-cb46-4bea-906d-1a9171f77a26)
 
 This is a standard label, 73x29. It fits nicely on these 2"x3" bags I bought off eBay: https://www.ebay.com/itm/192383069329?var=493083455428
 On the standard label you get one line for everything but the description, which has two lines. The max length for part number is about 30 characters and description about 82 characters.
+
 ![image](https://github.com/user-attachments/assets/32fc9a2c-1712-41d5-b93c-d52b1839ee6a)
