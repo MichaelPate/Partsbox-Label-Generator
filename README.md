@@ -12,7 +12,7 @@ To use it, make sure you have all the dependencies installed, and add your parts
 The default label generated is a 73mm x 29mm label cut from the continuous tape. There are references to a "magazine" or "compact" label, which is 65mm x 29mm. These labels are designed to fit onto the back of 3D printed SMD tape magazines found here: https://www.thingiverse.com/thing:3952021   credit to Thingiverse user robin7331 for the component storage. 
 
 ![IMG_8892](https://github.com/user-attachments/assets/9d63a42c-bcc5-4e9c-be7e-1178ab766d79)
-
+The label shown in this picture is old and not representative of the new template I am using, see below for what the new design is.
 
 The template for labels is hardcoded to what works for me. You are welcome to clone this and add your own template. Some examples of the styles that I programmed are below.
 
