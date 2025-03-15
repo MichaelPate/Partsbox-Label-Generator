@@ -1,5 +1,6 @@
 import requests
 import json
+import ast
 
 # test values for debugging
 #part_id = "fj7h5erw0rj499evktbvhetc45"
@@ -64,11 +65,32 @@ def find_part_id_by_number(part_number, api_key):
 # Part of that information is the storage location ID, but thats no human readable so we need to
 # reverse lookup for that string
 def find_storage_name_by_id(storage_id, api_key):
-    None
+    url = "https://api.partsbox.com/api/1/storage/get"
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": "APIKey " + api_key
+    }
+    data = {
+        "storage/id": storage_id
+    }
+    response = requests.post(url, headers=headers, json=data)
+    if response.status_code != 200:
+        print(f"Request failed with status code {response.status_code}")
+        print("Response:", response.text)
+        return -1
+    response_data = response.json()
+    #print(response_data)
+
+    storage_data = response_data.get('data', [])
+    storage_name = storage_data.get('storage/name')
+    #print(storage_name)
+    return storage_name
+
+
 
 def get_part_data(part_id, api_key):
     # Use API to get all the parts in the database
-    url = "https://api.partsbox.com/api/1/part/all"
+    url = "https://api.partsbox.com/api/1/part/get"
     headers = {
         "Content-Type": "application/json",
         "Authorization": "APIKey " + api_key
@@ -76,33 +98,29 @@ def get_part_data(part_id, api_key):
     data = {
         "part/id": part_id
     }
-    response = requests.post(url, headers=headers)
+    response = requests.post(url, headers=headers, json=data)
     if response.status_code != 200:
         print(f"Request failed with status code {response.status_code}")
         print("Response:", response.text)
         return -1
     response_data = response.json()
     # Extract the part data list from the 'data' field
-    parts_data = response_data.get('data', [])[0]
-    print(parts_data)
+    parts_data = response_data.get('data', [])
+    #print(parts_data)
     part_description = parts_data.get('part/description')
     part_manufacturer = parts_data.get('part/manufacturer')
     part_footprint = parts_data.get('part/footprint')
-    part_storage_id = parts_data.get('part/stock')[0].get('stock/storage-id')
+    #print(parts_data.get('part/stock'))
 
-    return [part_description, part_manufacturer, part_footprint, part_storage_id]
+
+    stock_data_str = str(parts_data.get('part/stock'))
+    part_stock_storage_id = ast.literal_eval(stock_data_str)[0]['stock/storage-id']
+    #print(part_stock_storage_id)
+
+    #part_storage_id = parts_data.get('part/stock')[0]['stock/storage-id']
+
+    return [part_description, part_manufacturer, part_footprint, part_stock_storage_id]#part_storage_id]
     
-
-
-
-
-
-
-
-
-
-
-
 
     # Define the URL for the API endpoint
     url = 'https://api.partsbox.com/api/1/part/get'

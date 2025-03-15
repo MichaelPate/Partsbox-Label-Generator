@@ -1,7 +1,7 @@
 from reportlab.pdfgen import canvas
 from PIL import Image
 
-def generate_pdf_label(part_number, category, manufacturer, description, storage_location, qr_code_path, output_file, template):
+def generate_pdf_label(part_number, footprint, manufacturer, description, storage_location, qr_code_path, output_file, template):
     if template == 'Standard':
         label_height_mm = 29
         label_width_mm = 73
@@ -27,7 +27,7 @@ def generate_pdf_label(part_number, category, manufacturer, description, storage
         c.drawString(10, label_height_points - 14, f"{part_number[:30]}")
         c.line(5, label_height_points - 18, label_width_points - 60, label_height_points - 18)
         c.setFont("Helvetica", 8)
-        c.drawString(10, label_height_points - 28, f"Category: {category[:22]}")
+        c.drawString(10, label_height_points - 28, f"Footprint: {footprint[:22]}")
         c.drawString(10, label_height_points - 38, f"Mfg.: {manufacturer[:27]}")
         c.drawString(10, label_height_points - 48, f"{storage_location[:32]}")
         c.line(5, label_height_points - 52, label_width_points - 60, label_height_points - 52)
@@ -61,7 +61,7 @@ def generate_pdf_label(part_number, category, manufacturer, description, storage
         
         Design:
             Two lines available for part number and description and storage location.
-            The manufacturer field is not shown, and category is still one line
+            The manufacturer field is not shown, and footprint is still one line
         '''
 
         c.setFont("Helvetica-Bold", 8)
@@ -79,7 +79,7 @@ def generate_pdf_label(part_number, category, manufacturer, description, storage
 
         #c.line(5, label_height_points - 18, label_width_points - 60, label_height_points - 18)
         c.setFont("Helvetica", 8)
-        c.drawString(10, label_height_points - 32, f"Category: {category[:18]}")
+        c.drawString(10, label_height_points - 32, f"Footprint: {footprint[:18]}")
         #c.drawString(10, label_height_points - 38, f"Mfg.: {manufacturer}")
 
         #c.drawString(10, label_height_points - 41, f"{storage_location}")
@@ -129,7 +129,7 @@ def generate_pdf_label(part_number, category, manufacturer, description, storage
 
 # Example usage
 part_number = "JLC-Y18-2195815A-PCBLC-Y18-2195815A-PCBLC-Y18-2195815A-PCB"
-category = "PCB Stencil123456789123456789"
+footprint = "PCB Stencil123456789123456789"
 manufacturer = "Bourns Inc.1234567890123456789012345678909"
 description = "RES SMD 10K OHM 5% 1/16W 0402 RES SMD 10K OHM 5% 1/16W 0402 RES SMD 10K OHM 5% 1/16W 0402"
 storage_location = "SMD Magazine A → Cartridge A21234567891234567890"
@@ -140,4 +140,4 @@ output_file = "label.pdf"
 
 template = "Magazine-Legacy" # template for formatting the data on the label
 
-generate_pdf_label(part_number, category, manufacturer, description, storage_location, qr_code_path, output_file, template)
+generate_pdf_label(part_number, footprint, manufacturer, description, storage_location, qr_code_path, output_file, template)

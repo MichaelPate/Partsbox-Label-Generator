@@ -1,4 +1,6 @@
 from partsbox_api import *
+from qr_code_generator import *
+from pdf_template_based_generator import *
 
 def main():
     mainMenuSelectionMade = False
@@ -30,24 +32,48 @@ def main():
     match option:
         case 1:     # one label from one part number
             part_number = input("Please enter the part number: ")
-
             part_id = find_part_id_by_number(part_number, api_key)
 
             if part_id == -1:
                 print("That part number does not exist!")
-            
-            part_data = get_part_data(part_id, api_key)
+            else:
+                part_data = get_part_data(part_id, api_key)
+                storage_id = part_data[3]
+                storage_location = find_storage_name_by_id(storage_id, api_key)
+                print(f"Found it! Check details below for part number {part_number}")
+                print(f"Description:\t{part_data[0]}")
+                print(f"Manufacturer:\t{part_data[1]}")
+                print(f"Footprint:\t{part_data[2]}")
+                print(f"Storage:\t{storage_location}")
 
-            storage_id = part_data[3]
-            storage_location = find_storage_name_by_id(storage_id, api_key)
+                # generate a QR code using the part number
+                qr_code_filename = "code_" + str(part_number) + ".png"
+                generate_qr_code(part_number, qr_code_filename)
 
-            print(f"Name:\t\t{part_number}")
-            print(f"Description:\t{part_data[0]}")
-            print(f"Manufacturer:\t{part_data[1]}")
-            print(f"Footprint:\t{part_data[2]}")
-            print(f"Storage:\t{storage_location}")
+                # Call up the label generator
+                #generate_pdf_label(part_number, category, manufacturer, description, storage_location, qr_code_path, output_file, template):
+                print("+------------------------------------+")
+                print("| Please choose a template style     |")
+                print("+------------------------------------+")
+                print("| 1. Standard 29x73                  |")
+                print("| 2. Magazine Label 29x65            |")
+                print("+------------------------------------+")
+                option = input("Enter style choice: ")
+                if option.isnumeric():
+                    option = int(option)
+                    if option >= 1 and option <= 2:
+                        if option == 1: template_choice = "Standard"
+                        else: template_choice = "Magazine-Legacy"
+                    else:
+                        print("INVALID SELECTION! Using Standard.")
+                        template_choice = "Standard"
+                else:
+                    print("INVALID SELECTION! Using Standard.")
+                    template_choice = "Standard"
+                label_filename = 'label_' + str(part_number) + ".pdf"
+                generate_pdf_label(part_number, part_data[2], part_data[1], part_data[0], str(storage_location), qr_code_filename, label_filename, template_choice)
 
-            None
+
         case 2:     # labels from file
             None
         case 3:     # labels for all parts in storage location
