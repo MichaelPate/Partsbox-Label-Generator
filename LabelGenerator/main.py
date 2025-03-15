@@ -1,6 +1,7 @@
 from partsbox_api import *
 from qr_code_generator import *
 from pdf_template_based_generator import *
+import webbrowser, os
 
 def main():
     mainMenuSelectionMade = False
@@ -47,7 +48,7 @@ def main():
                 print(f"Storage:\t{storage_location}")
 
                 # generate a QR code using the part number
-                qr_code_filename = "code_" + str(part_number) + ".png"
+                qr_code_filename = "GeneratedCodes\\code_" + str(part_number) + ".png"
                 generate_qr_code(part_number, qr_code_filename)
 
                 # Call up the label generator
@@ -70,9 +71,10 @@ def main():
                 else:
                     print("INVALID SELECTION! Using Standard.")
                     template_choice = "Standard"
-                label_filename = 'label_' + str(part_number) + ".pdf"
+                label_filename = 'GeneratedLabels\\label_' + str(part_number) + ".pdf"
                 generate_pdf_label(part_number, part_data[2], part_data[1], part_data[0], str(storage_location), qr_code_filename, label_filename, template_choice)
-
+                webbrowser.open(label_filename)
+                
 
         case 2:     # labels from file
             None
