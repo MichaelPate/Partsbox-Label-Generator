@@ -97,7 +97,7 @@ def get_part_data(part_id, api_key):
     }
     data = {
         "part/id": part_id
-    }
+    }   
     response = requests.post(url, headers=headers, json=data)
     if response.status_code != 200:
         print(f"Request failed with status code {response.status_code}")
@@ -107,9 +107,9 @@ def get_part_data(part_id, api_key):
     # Extract the part data list from the 'data' field
     parts_data = response_data.get('data', [])
     #print(parts_data)
-    part_description = parts_data.get('part/description')
-    part_manufacturer = parts_data.get('part/manufacturer')
-    part_footprint = parts_data.get('part/footprint')
+    part_description = parts_data.get('part/description', 'None')
+    part_manufacturer = parts_data.get('part/manufacturer', 'None')
+    part_footprint = parts_data.get('part/footprint', 'None')
     #print(parts_data.get('part/stock'))
 
 
@@ -159,4 +159,3 @@ if __name__ == '__main__':
     with open("secrets.txt", 'r') as file:
             first_line = file.readline().strip()
             api_key = first_line.split(",")[1]
-    print(find_part_id_by_number(part_num, api_key))

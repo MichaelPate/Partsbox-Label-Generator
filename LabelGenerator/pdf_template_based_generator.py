@@ -1,5 +1,47 @@
 from reportlab.pdfgen import canvas
 from PIL import Image
+import PyPDF2
+import os
+
+def append_pdf(output_pdf, pdf_to_add, template):
+    # Start by generating the output_pdf
+    if template == 'Standard':
+        label_height_mm = 29
+        label_width_mm = 73
+    elif template == 'Magazine-Legacy':
+        label_height_mm = 29
+        label_width_mm = 65
+    elif template == 'Magazine':
+        label_height_mm = 38
+        label_width_mm = 65
+
+    # Convert label size from mm to points (1 mm = 2.83465 points)
+    label_width_points = label_width_mm * 2.83465
+    label_height_points = label_height_mm * 2.83465
+
+    # Create the PDF canvas with the specified label size
+    c = canvas.Canvas(output_pdf, pagesize=(label_width_points, label_height_points))
+    c.showPage()
+    c.save()
+
+    # now we can append
+    with open(output_pdf, "rb") as output_file, open(pdf_to_add, "rb") as addition_file:
+        output_pdf_reader = PyPDF2.PdfReader(output_file)
+        append_pdf_reader = PyPDF2.PdfReader(addition_file)
+
+        pdf_writer = PyPDF2.PdfWriter()
+
+        # Add all pages from the original PDF
+        for page_num in range(len(output_pdf_reader.pages)):
+            pdf_writer.add_page(output_pdf_reader.pages[page_num])
+
+        # Add the second page
+        pdf_writer.add_page(append_pdf_reader.pages[0])
+
+    # Write to the output file
+    with open(output_pdf, "wb") as output_file:
+        pdf_writer.write(output_file)
+
 
 def generate_pdf_label(part_number, footprint, manufacturer, description, storage_location, qr_code_path, output_file, template):
     if template == 'Standard':
@@ -121,12 +163,13 @@ def generate_pdf_label(part_number, footprint, manufacturer, description, storag
         #TODO Implement magazine labels, essentially the same as magazine-legacy but with more vertical room
 
     # Save the PDF
+    c.showPage()    # declares the end of the page
     c.save()
     print(f"Label PDF saved to {output_file}")
 
 
 
-
+'''
 # Example usage
 part_number = "JLC-Y18-2195815A-PCBLC-Y18-2195815A-PCBLC-Y18-2195815A-PCB"
 footprint = "PCB Stencil123456789123456789"
@@ -141,3 +184,4 @@ output_file = "label.pdf"
 template = "Magazine-Legacy" # template for formatting the data on the label
 
 generate_pdf_label(part_number, footprint, manufacturer, description, storage_location, qr_code_path, output_file, template)
+'''
