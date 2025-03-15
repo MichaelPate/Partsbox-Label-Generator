@@ -19,9 +19,11 @@ def generate_qr_code(data, output_file):
     # Save the image as a PNG file
     img.save(output_file)
 
+'''
 # Example usage
 data = "Hello, this is a test QR code!"  # This is the string to encode
 output_file = "qr_code.png"  # The name of the output file
 
 generate_qr_code(data, output_file)
 print(f"QR code saved as {output_file}")
+'''
