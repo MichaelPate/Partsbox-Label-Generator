@@ -2,8 +2,8 @@ import requests
 import json
 
 # test values for debugging
-part_id = "fj7h5erw0rj499evktbvhetc45"
-part_num = "CGA0402C0G220J500GT"
+#part_id = "fj7h5erw0rj499evktbvhetc45"
+#part_num = "CGA0402C0G220J500GT"
 
 
 def find_part_id_by_number(part_number, api_key):
@@ -65,6 +65,77 @@ def find_part_id_by_number(part_number, api_key):
 # reverse lookup for that string
 def find_storage_name_by_id(storage_id, api_key):
     None
+
+def get_part_data(part_id, api_key):
+    # Use API to get all the parts in the database
+    url = "https://api.partsbox.com/api/1/part/all"
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": "APIKey " + api_key
+    }
+    data = {
+        "part/id": part_id
+    }
+    response = requests.post(url, headers=headers)
+    if response.status_code != 200:
+        print(f"Request failed with status code {response.status_code}")
+        print("Response:", response.text)
+        return -1
+    response_data = response.json()
+    # Extract the part data list from the 'data' field
+    parts_data = response_data.get('data', [])[0]
+    print(parts_data)
+    part_description = parts_data.get('part/description')
+    part_manufacturer = parts_data.get('part/manufacturer')
+    part_footprint = parts_data.get('part/footprint')
+    part_storage_id = parts_data.get('part/stock')[0].get('stock/storage-id')
+
+    return [part_description, part_manufacturer, part_footprint, part_storage_id]
+    
+
+
+
+
+
+
+
+
+
+
+
+
+    # Define the URL for the API endpoint
+    url = 'https://api.partsbox.com/api/1/part/get'
+
+    # Define the API key (replace with your actual API key)
+    headers = {
+        'Authorization': 'APIKey ' + api_key,
+        'Content-Type': 'application/json',
+    }
+
+    # Define the data to be sent in the request (if needed)
+    data = {
+        "part/id": part_id
+    }
+
+    # Send the POST request and get the response
+    response = requests.post(url, json=data, headers=headers)
+
+    # Check if the request was successful (status code 200)
+    if response.status_code == 200:
+        # Parse the JSON response and get the data
+        response_data = response.json()  # Convert JSON to a Python dictionary
+
+        # Print the parsed JSON data
+        #print("Response Data:", response_data)
+        
+        # Extract the 'data' field
+        if 'data' in response_data:
+            parts_data = response_data['data']
+            #print("Parts Data:", parts_data)
+            return response_data
+    else:
+        print(f"Error {response.status_code}: {response.text}")
 
 if __name__ == '__main__':
     with open("secrets.txt", 'r') as file:
