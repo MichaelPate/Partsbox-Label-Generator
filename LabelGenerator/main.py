@@ -156,8 +156,10 @@ def main():
             webbrowser.open(output_label_filename)
 
         case 3:     # labels for all parts in storage location
+            #TODO implement label generation for all parts in a storage location
             None
         case 4:     # labels for the entire database
+            #TODO implement label generation for all parts in the database
             None
 
 if __name__ == '__main__':
